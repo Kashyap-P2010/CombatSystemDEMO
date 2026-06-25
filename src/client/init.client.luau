@@ -1,0 +1,4 @@
+--!strict
+
+
+print("[Client] booting...")
