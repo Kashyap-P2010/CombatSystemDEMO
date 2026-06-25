@@ -84,6 +84,7 @@ local function fireNextComboHit(): ()
 	end)
 
 	if nextIndex == #CombatConfig.Combo then
+		cancelComboReset()
 		task.delay(hitData.ComboWindow + 0.1, function()
 			_comboIndex = 0
 			_state      = "Idle"
