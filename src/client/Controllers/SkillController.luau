@@ -137,6 +137,7 @@ function SkillController.Init(): ()
 	end
 
 	localPlayer.CharacterAdded:Connect(function(char: Model)
+		_characterReady = false
 		setupCharacter(char)
 	end)
 end
