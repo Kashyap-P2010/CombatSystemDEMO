@@ -1,6 +1,5 @@
 --!strict
 
-
 export type HitData = {
 	Damage        : number,
 	HitboxSize    : Vector3,
@@ -12,8 +11,8 @@ export type HitData = {
 
 local CombatConfig = {}
 
-
 CombatConfig.Combo: { HitData } = {
+
 	{
 		Damage       = 8,
 		HitboxSize   = Vector3.new(4, 4, 4),
@@ -22,6 +21,7 @@ CombatConfig.Combo: { HitData } = {
 		ComboWindow  = 0.70,
 		AnimName     = "M1",  -- TODO
 	},
+
 	{
 		Damage       = 8,
 		HitboxSize   = Vector3.new(4, 4, 4),
@@ -30,6 +30,7 @@ CombatConfig.Combo: { HitData } = {
 		ComboWindow  = 0.70,
 		AnimName     = "M2",  -- TODO
 	},
+
 	{
 		Damage       = 12,
 		HitboxSize   = Vector3.new(5, 4, 5),
@@ -38,6 +39,7 @@ CombatConfig.Combo: { HitData } = {
 		ComboWindow  = 0.75,
 		AnimName     = "M3",  -- TODO
 	},
+
 	{
 		Damage       = 20,
 		HitboxSize   = Vector3.new(6, 5, 6),
@@ -50,15 +52,12 @@ CombatConfig.Combo: { HitData } = {
 
 CombatConfig.ComboResetTime       = 1.2
 
-
 CombatConfig.BlockBreakThreshold  = 30
 CombatConfig.BlockDamageReduction = 0.80
-
 
 CombatConfig.DodgeCooldown        = 0.80
 CombatConfig.DodgeIFrames         = 0.20
 CombatConfig.DodgeForce           = 55
-
 
 CombatConfig.MaxHitDistance       = 12
 

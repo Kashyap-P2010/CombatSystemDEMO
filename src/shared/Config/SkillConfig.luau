@@ -1,6 +1,5 @@
 --!strict
 
-
 export type SkillData = {
 	Name      : string,
 	Cooldown  : number,
@@ -13,8 +12,8 @@ export type SkillData = {
 
 local SkillConfig = {}
 
-
 SkillConfig.Skills: { SkillData } = {
+
 	{
 		Name     = "Spin Kick",
 		Cooldown = 8,
@@ -24,6 +23,7 @@ SkillConfig.Skills: { SkillData } = {
 		VFXTag   = "VFX_Skill1", -- TODO
 		IsAwaken = false,
 	},
+
 	{
 		Name     = "Double Power Punch",
 		Cooldown = 10,
@@ -33,6 +33,7 @@ SkillConfig.Skills: { SkillData } = {
 		VFXTag   = "VFX_Skill2", -- TODO
 		IsAwaken = false,
 	},
+
 	{
 		Name     = "Kick Combo",
 		Cooldown = 12,
@@ -42,6 +43,7 @@ SkillConfig.Skills: { SkillData } = {
 		VFXTag   = "VFX_Skill3", -- TODO
 		IsAwaken = false,
 	},
+
 	{
 		Name     = "Ultra Power Punch",
 		Cooldown = 15,
@@ -51,6 +53,7 @@ SkillConfig.Skills: { SkillData } = {
 		VFXTag   = "VFX_Skill4", -- TODO
 		IsAwaken = false,
 	},
+
 	{
 		Name     = "Awaken",
 		Cooldown = 60,
@@ -61,7 +64,6 @@ SkillConfig.Skills: { SkillData } = {
 		IsAwaken = true,
 	},
 }
-
 
 SkillConfig.KeyBinds: { [number]: Enum.KeyCode } = {
 	[1] = Enum.KeyCode.Q,

@@ -1,6 +1,5 @@
 --!strict
 
-
 local CharacterConfig = {}
 
 CharacterConfig.WalkSpeed    = 14

@@ -1,6 +1,5 @@
 --!strict
 
-
 local Players           = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -8,9 +7,7 @@ local Shared      = ReplicatedStorage:WaitForChild("Shared")
 local Remotes     = require(Shared.Remotes.RemoteDefinitions)
 local SkillConfig = require(Shared.Config.SkillConfig)
 
-
 local _cooldownEndTimes: { [number]: { [number]: number } } = {}
-
 
 local function isOnCooldown(userId: number, slotIndex: number): boolean
 	local playerCDs = _cooldownEndTimes[userId]
@@ -54,7 +51,6 @@ local function findSkillTargets(origin: Vector3, range: number, caster: Player):
 	return hits
 end
 
-
 local function onUseSkill(player: Player, slotIndex: number): ()
 	if typeof(slotIndex) ~= "number" then return end
 	if slotIndex < 1 or slotIndex > #SkillConfig.Skills then return end
@@ -91,13 +87,12 @@ local function onUseSkill(player: Player, slotIndex: number): ()
 	end
 
 	-- TODO: broadcast skill.VFXTag via CollectionService to all clients
-end
 
+end
 
 local function onPlayerRemoving(player: Player): ()
 	_cooldownEndTimes[player.UserId] = nil
 end
-
 
 local SkillService = {}
 

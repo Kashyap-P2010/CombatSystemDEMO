@@ -1,6 +1,5 @@
 --!strict
 
-
 local Players           = game:GetService("Players")
 local UserInputService  = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -11,7 +10,6 @@ local SkillConfig = require(Shared.Config.SkillConfig)
 
 local localPlayer = Players.LocalPlayer
 
-
 local SkillController = {}
 
 local _cooldownEndTimes: { [number]: number } = {}
@@ -19,7 +17,6 @@ local _isSkillActive: boolean  = false
 local _awakenHoldStart: number? = nil
 local _awakenFired: boolean    = false
 local _characterReady: boolean = false
-
 
 local function isOnCooldown(slotIndex: number): boolean
 	local endTime = _cooldownEndTimes[slotIndex]
@@ -32,7 +29,6 @@ local function startCooldown(slotIndex: number): ()
 	if not skill then return end
 	_cooldownEndTimes[slotIndex] = tick() + skill.Cooldown
 end
-
 
 local function fireSkill(slotIndex: number): ()
 	if not _characterReady then return end
@@ -55,7 +51,6 @@ local function fireSkill(slotIndex: number): ()
 	end)
 end
 
-
 local function onAwakenKeyDown(): ()
 	if isOnCooldown(5) then return end
 	_awakenHoldStart = tick()
@@ -72,8 +67,8 @@ local function onAwakenKeyUp(): ()
 		fireSkill(5)
 		_awakenFired = true
 	end
-end
 
+end
 
 local function onInputBegan(input: InputObject, gameProcessed: boolean): ()
 	if gameProcessed then return end
@@ -98,7 +93,6 @@ local function onInputEnded(input: InputObject, _gameProcessed: boolean): ()
 	end
 end
 
-
 local function setupCharacter(character: Model): ()
 	local humanoid = character:WaitForChild("Humanoid") :: Humanoid
 
@@ -115,7 +109,6 @@ local function setupCharacter(character: Model): ()
 		_isSkillActive  = false
 	end)
 end
-
 
 function SkillController.IsOnCooldown(slotIndex: number): boolean
 	return isOnCooldown(slotIndex)
@@ -137,6 +130,7 @@ function SkillController.Init(): ()
 	end
 
 	localPlayer.CharacterAdded:Connect(function(char: Model)
+
 		_characterReady = false
 		setupCharacter(char)
 	end)

@@ -1,6 +1,5 @@
 --!strict
 
-
 local Players           = game:GetService("Players")
 local UserInputService  = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -11,9 +10,7 @@ local CharacterConfig = require(Shared.Config.CharacterConfig)
 local localPlayer = Players.LocalPlayer
 local camera      = workspace.CurrentCamera
 
-
 type MovementState = "Idle" | "Walking" | "Running" | "Jumping" | "Dashing" | "Rolling" | "Locked"
-
 
 local MovementController = {}
 
@@ -36,7 +33,6 @@ local DASH_KEYS: { Enum.KeyCode } = {
 	Enum.KeyCode.D,
 }
 
-
 local function keyToDirection(keyCode: Enum.KeyCode): Vector3
 	local cf      = camera.CFrame
 	local forward = Vector3.new(cf.LookVector.X, 0, cf.LookVector.Z).Unit
@@ -49,7 +45,6 @@ local function keyToDirection(keyCode: Enum.KeyCode): Vector3
 	end
 	return forward
 end
-
 
 local function performRoll(direction: Vector3): ()
 	if not _hrp or not _humanoid then return end
@@ -82,7 +77,6 @@ local function performRoll(direction: Vector3): ()
 	end)
 end
 
-
 local function performDash(direction: Vector3): ()
 	if not _hrp or not _humanoid then return end
 	if not _dashCooldownReady then return end
@@ -102,7 +96,6 @@ local function performDash(direction: Vector3): ()
 		end
 	end)
 end
-
 
 local function onInputBegan(input: InputObject, gameProcessed: boolean): ()
 	if gameProcessed then return end
@@ -128,6 +121,7 @@ local function onInputBegan(input: InputObject, gameProcessed: boolean): ()
 		local direction = keyToDirection(keyCode)
 
 		if _dashCount >= 3 then
+
 			performRoll(direction)
 		else
 			performDash(direction)
@@ -136,7 +130,6 @@ local function onInputBegan(input: InputObject, gameProcessed: boolean): ()
 
 	_lastKeyTapTime[keyCode] = now
 end
-
 
 local function setupCharacter(character: Model): ()
 	_character = character
@@ -153,7 +146,6 @@ local function setupCharacter(character: Model): ()
 	_humanoid.WalkSpeed = CharacterConfig.WalkSpeed
 	_humanoid.JumpPower = CharacterConfig.JumpPower
 end
-
 
 function MovementController.GetState(): MovementState
 	return _state

@@ -1,6 +1,5 @@
 --!strict
 
-
 local Players           = game:GetService("Players")
 local UserInputService  = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -11,9 +10,7 @@ local CombatConfig = require(Shared.Config.CombatConfig)
 
 local localPlayer = Players.LocalPlayer
 
-
 type CombatState = "Idle" | "Attacking" | "Blocking" | "Dodging" | "Stunned" | "Locked"
-
 
 local CombatController = {}
 
@@ -26,7 +23,6 @@ local _isDodging: boolean         = false
 local _dodgeCooldownReady: boolean = true
 local _character: Model?          = nil
 local _hrp: BasePart?             = nil
-
 
 local function cancelComboReset(): ()
 	if _comboResetTask then
@@ -47,12 +43,10 @@ local function scheduleComboReset(): ()
 	end)
 end
 
-
 local function buildHitboxCFrame(hitData: CombatConfig.HitData): CFrame?
 	if not _hrp then return nil end
 	return _hrp.CFrame * CFrame.new(hitData.HitboxOffset)
 end
-
 
 local function fireNextComboHit(): ()
 	if _state == "Locked" or _state == "Stunned" then return end
@@ -84,6 +78,7 @@ local function fireNextComboHit(): ()
 	end)
 
 	if nextIndex == #CombatConfig.Combo then
+
 		cancelComboReset()
 		task.delay(hitData.ComboWindow + 0.1, function()
 			_comboIndex = 0
@@ -93,7 +88,6 @@ local function fireNextComboHit(): ()
 		scheduleComboReset()
 	end
 end
-
 
 local function startBlock(): ()
 	if _state == "Attacking" or _state == "Locked" then return end
@@ -110,7 +104,6 @@ local function endBlock(): ()
 	Remotes.BlockState:FireServer(false)
 	-- TODO: play UnBlock animation
 end
-
 
 local function performDodge(): ()
 	if _state == "Locked" or _state == "Stunned" then return end
@@ -142,7 +135,6 @@ local function performDodge(): ()
 	end)
 end
 
-
 local function onCharacterStateChanged(player: Player, stateName: string, duration: number?): ()
 	if player ~= localPlayer then return end
 
@@ -158,6 +150,7 @@ local function onCharacterStateChanged(player: Player, stateName: string, durati
 		end)
 
 	elseif stateName == "BlockBroken" then
+
 		_isBlocking = false
 		_state      = "Stunned"
 		-- TODO: play BlockBreak → StunnedLoop animation sequence
@@ -168,7 +161,6 @@ local function onCharacterStateChanged(player: Player, stateName: string, durati
 		end)
 	end
 end
-
 
 local function onInputBegan(input: InputObject, gameProcessed: boolean): ()
 	if gameProcessed then return end
@@ -193,7 +185,6 @@ local function onInputEnded(input: InputObject, _gameProcessed: boolean): ()
 	end
 end
 
-
 local function setupCharacter(character: Model): ()
 	_character          = character
 	_hrp                = character:WaitForChild("HumanoidRootPart") :: BasePart
@@ -205,7 +196,6 @@ local function setupCharacter(character: Model): ()
 	_dodgeCooldownReady = true
 	cancelComboReset()
 end
-
 
 function CombatController.GetState(): CombatState
 	return _state

@@ -1,6 +1,5 @@
 --!strict
 
-
 local Players           = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -8,15 +7,12 @@ local Shared       = ReplicatedStorage:WaitForChild("Shared")
 local Remotes      = require(Shared.Remotes.RemoteDefinitions)
 local CombatConfig = require(Shared.Config.CombatConfig)
 
-
 type BlockState = {
 	IsBlocking     : boolean,
 	DamageAbsorbed : number,
 }
 
-
 local _blockStates: { [number]: BlockState } = {}
-
 
 local function getBlockState(userId: number): BlockState
 	if not _blockStates[userId] then
@@ -35,7 +31,6 @@ end
 local function replicateState(player: Player, stateName: string, duration: number?): ()
 	Remotes.CharacterStateChanged:FireClient(player, player, stateName, duration)
 end
-
 
 local function validateHitDistance(attackerHRP: BasePart, reportedCF: CFrame): boolean
 	local dist = (attackerHRP.Position - reportedCF.Position).Magnitude
@@ -69,8 +64,8 @@ local function findHitTargets(hitboxCF: CFrame, hitboxSize: Vector3, attacker: P
 	return hits
 end
 
-
 local function onCombatHit(attacker: Player, comboIndex: number, hitboxCF: CFrame, hitboxSize: Vector3): ()
+
 	if typeof(comboIndex)  ~= "number"  then return end
 	if typeof(hitboxCF)    ~= "CFrame"  then return end
 	if typeof(hitboxSize)  ~= "Vector3" then return end
@@ -99,10 +94,12 @@ local function onCombatHit(attacker: Player, comboIndex: number, hitboxCF: CFram
 		local finalDamage = hitData.Damage
 
 		if blockState.IsBlocking then
+
 			finalDamage = math.floor(finalDamage * (1 - CombatConfig.BlockDamageReduction))
 			blockState.DamageAbsorbed += hitData.Damage
 
 			if blockState.DamageAbsorbed >= CombatConfig.BlockBreakThreshold then
+
 				blockState.IsBlocking     = false
 				blockState.DamageAbsorbed = 0
 				applyDamage(targetChar, finalDamage)
@@ -126,6 +123,7 @@ local function onBlockState(player: Player, isBlocking: boolean): ()
 	local state      = getBlockState(player.UserId)
 	state.IsBlocking = isBlocking
 	if not isBlocking then
+
 		state.DamageAbsorbed = 0
 	end
 end
@@ -149,11 +147,9 @@ local function onDodgeState(player: Player, direction: Vector3): ()
 	hrp.AssemblyLinearVelocity = flat * CombatConfig.DodgeForce
 end
 
-
 local function onPlayerRemoving(player: Player): ()
 	_blockStates[player.UserId] = nil
 end
-
 
 local CombatService = {}
 
