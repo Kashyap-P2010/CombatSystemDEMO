@@ -38,8 +38,7 @@ local DASH_KEYS: { Enum.KeyCode } = {
 
 
 local function keyToDirection(keyCode: Enum.KeyCode): Vector3
-	if not _hrp then return Vector3.new(0, 0, -1) end
-	local cf      = _hrp.CFrame
+	local cf      = camera.CFrame
 	local forward = Vector3.new(cf.LookVector.X, 0, cf.LookVector.Z).Unit
 	local right   = forward:Cross(Vector3.new(0, 1, 0)).Unit
 
